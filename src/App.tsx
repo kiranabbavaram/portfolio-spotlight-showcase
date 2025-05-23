@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,6 +24,9 @@ declare global {
     Clerk?: { loaded?: boolean };
   }
 }
+
+// Define the Clerk publishableKey directly
+const CLERK_PUBLISHABLE_KEY = "pk_test_c3BsZW5kaWQtd2VldmlsLTUyLmNsZXJrLmFjY291bnRzLmRldiQ";
 
 const queryClient = new QueryClient();
 
@@ -87,7 +91,7 @@ function ClerkAuthLoader({ children }: { children: React.ReactNode }) {
 }
 
 const App = () => (
-  <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
+  <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
