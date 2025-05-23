@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 
 import { useState, useEffect } from "react"
@@ -182,7 +180,7 @@ export default function Projects() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 pt-2 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2 lg:grid-cols-3">
         {projects.length === 0 ? (
           <motion.div
             className="col-span-full rounded-lg border border-gray-200 bg-gray-50 py-10 text-center"
@@ -207,6 +205,7 @@ export default function Projects() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
+              className="touch-manipulation"
             >
               <Card className="rounded-md border-gray-200 shadow-none transition-all duration-300 hover:shadow-sm">
                 {project.image_url ? (
@@ -216,6 +215,7 @@ export default function Projects() {
                         src={project.image_url || "/placeholder.svg"}
                         alt={project.title}
                         className="h-full w-full object-cover"
+                        loading="lazy"
                       />
                     </AspectRatio>
                   </div>
@@ -245,14 +245,24 @@ export default function Projects() {
                 <CardFooter className="flex justify-between border-t border-gray-100 p-3">
                   <div className="flex gap-1">
                     {project.project_url && (
-                      <Button size="icon" variant="ghost" asChild className="h-6 w-6 rounded-full">
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        asChild 
+                        className="h-8 w-8 rounded-full touch-manipulation"
+                      >
                         <a href={project.project_url} target="_blank" rel="noopener noreferrer">
                           <ExternalLink size={14} />
                         </a>
                       </Button>
                     )}
                     {project.github_url && (
-                      <Button size="icon" variant="ghost" asChild className="h-6 w-6 rounded-full">
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        asChild 
+                        className="h-8 w-8 rounded-full touch-manipulation"
+                      >
                         <a href={project.github_url} target="_blank" rel="noopener noreferrer">
                           <Github size={14} />
                         </a>
@@ -264,7 +274,7 @@ export default function Projects() {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleOpenDialog(project)}
-                      className="h-6 rounded-md px-2 text-[10px]"
+                      className="h-8 rounded-md px-3 text-xs touch-manipulation"
                     >
                       <Pencil className="mr-1 h-3 w-3" /> Edit
                     </Button>
@@ -272,7 +282,7 @@ export default function Projects() {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDelete(project.id)}
-                      className="h-6 rounded-md px-2 text-[10px] text-red-600 hover:bg-red-50 hover:text-red-700"
+                      className="h-8 rounded-md px-3 text-xs text-red-600 hover:bg-red-50 hover:text-red-700 touch-manipulation"
                     >
                       <Trash2 className="mr-1 h-3 w-3" /> Delete
                     </Button>
@@ -285,14 +295,14 @@ export default function Projects() {
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] p-5">
           <DialogHeader>
             <DialogTitle className="text-sm font-medium">
               {editingProject ? "Edit Project" : "Add New Project"}
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div className="space-y-1">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
               <Label htmlFor="title" className="text-xs">
                 Project Title *
               </Label>
@@ -302,11 +312,12 @@ export default function Projects() {
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
+                placeholder="Enter project title"
               />
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="description" className="text-xs">
                 Description
               </Label>
@@ -316,12 +327,13 @@ export default function Projects() {
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
+                placeholder="Describe your project"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
                 <Label htmlFor="project_url" className="text-xs">
                   Live Demo URL
                 </Label>
@@ -332,10 +344,10 @@ export default function Projects() {
                   value={formData.project_url}
                   onChange={handleChange}
                   placeholder="https://..."
-                  className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                  className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
                 />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <Label htmlFor="github_url" className="text-xs">
                   GitHub Repository
                 </Label>
@@ -346,12 +358,12 @@ export default function Projects() {
                   value={formData.github_url}
                   onChange={handleChange}
                   placeholder="https://github.com/..."
-                  className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                  className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
                 />
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="technologies" className="text-xs">
                 Technologies Used
               </Label>
@@ -361,11 +373,11 @@ export default function Projects() {
                 value={formData.technologies}
                 onChange={handleChange}
                 placeholder="React, TypeScript, Tailwind CSS, etc. (comma-separated)"
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="project_image" className="text-xs">
                 Project Image
               </Label>
@@ -375,6 +387,7 @@ export default function Projects() {
                     src={formData.image_url || "/placeholder.svg"}
                     alt="Project preview"
                     className="h-32 rounded-md border border-gray-200 object-cover"
+                    loading="lazy"
                   />
                 </div>
               )}
@@ -384,21 +397,25 @@ export default function Projects() {
                 accept="image/*"
                 onChange={handleImageUpload}
                 disabled={uploadingImage}
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
               />
               {uploadingImage && <p className="text-xs text-gray-500">Uploading image...</p>}
             </div>
 
-            <div className="flex justify-end gap-2 pt-3">
+            <div className="flex justify-end gap-2 pt-4">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setDialogOpen(false)}
-                className="h-7 rounded-full border-gray-200 px-3 text-xs"
+                className="h-8 rounded-full border-gray-200 px-3 text-xs touch-manipulation"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={uploadingImage} className="h-7 rounded-full px-3 text-xs">
+              <Button 
+                type="submit" 
+                disabled={uploadingImage} 
+                className="h-8 rounded-full px-3 text-xs touch-manipulation"
+              >
                 {editingProject ? "Save Changes" : "Add Project"}
               </Button>
             </div>

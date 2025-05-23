@@ -165,7 +165,7 @@ export default function EducationPage() {
         <Button
           variant="outline"
           onClick={() => handleOpenDialog()}
-          className="h-7 rounded-full border-gray-200 px-3 text-xs hover:bg-gray-50 hover:text-black"
+          className="h-7 rounded-full border-gray-200 px-3 text-xs hover:bg-gray-50 hover:text-black touch-manipulation"
         >
           <Plus className="mr-1.5 h-3.5 w-3.5" />
           Add Education
@@ -187,7 +187,7 @@ export default function EducationPage() {
             <p className="mt-1 text-xs text-gray-500">
               Add your educational background to showcase your qualifications
             </p>
-            <Button className="mt-3 h-7 rounded-full px-3 text-xs" variant="outline" onClick={() => handleOpenDialog()}>
+            <Button className="mt-3 h-7 rounded-full px-3 text-xs touch-manipulation" variant="outline" onClick={() => handleOpenDialog()}>
               <Plus className="mr-1.5 h-3.5 w-3.5" />
               Add Education
             </Button>
@@ -224,7 +224,7 @@ export default function EducationPage() {
                       size="icon"
                       variant="ghost"
                       onClick={() => handleOpenDialog(education)}
-                      className="h-6 w-6 rounded-full"
+                      className="h-8 w-8 rounded-full touch-manipulation"
                     >
                       <Pencil size={14} />
                     </Button>
@@ -232,7 +232,7 @@ export default function EducationPage() {
                       size="icon"
                       variant="ghost"
                       onClick={() => handleDelete(education.id)}
-                      className="h-6 w-6 rounded-full"
+                      className="h-8 w-8 rounded-full touch-manipulation"
                     >
                       <Trash2 size={14} />
                     </Button>
@@ -245,14 +245,14 @@ export default function EducationPage() {
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] p-5">
           <DialogHeader>
             <DialogTitle className="text-sm font-medium">
               {editingEducation ? "Edit Education" : "Add Education"}
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div className="space-y-1">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
               <Label htmlFor="institution" className="text-xs">
                 Institution *
               </Label>
@@ -263,11 +263,11 @@ export default function EducationPage() {
                 onChange={handleChange}
                 placeholder="University or School Name"
                 required
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="degree" className="text-xs">
                 Degree/Certificate *
               </Label>
@@ -278,11 +278,11 @@ export default function EducationPage() {
                 onChange={handleChange}
                 placeholder="Bachelor of Science, Certificate, etc."
                 required
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="field_of_study" className="text-xs">
                 Field of Study
               </Label>
@@ -292,12 +292,12 @@ export default function EducationPage() {
                 value={formData.field_of_study}
                 onChange={handleChange}
                 placeholder="Computer Science, Business, etc."
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
                 <Label htmlFor="start_date" className="text-xs">
                   Start Date
                 </Label>
@@ -307,10 +307,10 @@ export default function EducationPage() {
                   type="date"
                   value={formData.start_date}
                   onChange={handleChange}
-                  className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                  className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
                 />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <Label htmlFor="end_date" className="text-xs">
                   End Date
                 </Label>
@@ -321,12 +321,12 @@ export default function EducationPage() {
                   value={formData.end_date}
                   onChange={handleChange}
                   placeholder="Leave blank if still studying"
-                  className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                  className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
                 />
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="description" className="text-xs">
                 Description
               </Label>
@@ -337,20 +337,20 @@ export default function EducationPage() {
                 onChange={handleChange}
                 placeholder="Notable achievements, activities, GPA, etc."
                 rows={3}
-                className="rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-3">
+            <div className="flex justify-end gap-2 pt-4">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setDialogOpen(false)}
-                className="h-7 rounded-full border-gray-200 px-3 text-xs"
+                className="h-8 rounded-full border-gray-200 px-3 text-xs touch-manipulation"
               >
                 Cancel
               </Button>
-              <Button type="submit" className="h-7 rounded-full px-3 text-xs">
+              <Button type="submit" className="h-8 rounded-full px-3 text-xs touch-manipulation">
                 {editingEducation ? "Update" : "Add"} Education
               </Button>
             </div>

@@ -170,7 +170,7 @@ export default function ExperiencePage() {
         <Button
           variant="outline"
           onClick={() => handleOpenDialog()}
-          className="h-7 rounded-full border-gray-200 px-3 text-xs hover:bg-gray-50 hover:text-black"
+          className="h-7 rounded-full border-gray-200 px-3 text-xs hover:bg-gray-50 hover:text-black touch-manipulation"
         >
           <Plus className="mr-1.5 h-3.5 w-3.5" />
           Add Experience
@@ -190,7 +190,7 @@ export default function ExperiencePage() {
             </div>
             <h3 className="text-sm font-medium">No work experience yet</h3>
             <p className="mt-1 text-xs text-gray-500">Add your work experience to showcase your professional journey</p>
-            <Button className="mt-3 h-7 rounded-full px-3 text-xs" variant="outline" onClick={() => handleOpenDialog()}>
+            <Button className="mt-3 h-7 rounded-full px-3 text-xs touch-manipulation" variant="outline" onClick={() => handleOpenDialog()}>
               <Plus className="mr-1.5 h-3.5 w-3.5" />
               Add Experience
             </Button>
@@ -234,7 +234,7 @@ export default function ExperiencePage() {
                       size="icon"
                       variant="ghost"
                       onClick={() => handleOpenDialog(experience)}
-                      className="h-6 w-6 rounded-full"
+                      className="h-8 w-8 rounded-full touch-manipulation"
                     >
                       <Pencil size={14} />
                     </Button>
@@ -242,7 +242,7 @@ export default function ExperiencePage() {
                       size="icon"
                       variant="ghost"
                       onClick={() => handleDelete(experience.id)}
-                      className="h-6 w-6 rounded-full"
+                      className="h-8 w-8 rounded-full touch-manipulation"
                     >
                       <Trash2 size={14} />
                     </Button>
@@ -255,14 +255,14 @@ export default function ExperiencePage() {
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] p-5">
           <DialogHeader>
             <DialogTitle className="text-sm font-medium">
               {editingExperience ? "Edit Experience" : "Add Experience"}
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div className="space-y-1">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
               <Label htmlFor="company" className="text-xs">
                 Company *
               </Label>
@@ -273,11 +273,11 @@ export default function ExperiencePage() {
                 onChange={handleChange}
                 placeholder="Company Name"
                 required
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="position" className="text-xs">
                 Position *
               </Label>
@@ -288,11 +288,11 @@ export default function ExperiencePage() {
                 onChange={handleChange}
                 placeholder="Job Title"
                 required
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="location" className="text-xs">
                 Location
               </Label>
@@ -302,12 +302,12 @@ export default function ExperiencePage() {
                 value={formData.location}
                 onChange={handleChange}
                 placeholder="City, Country"
-                className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
                 <Label htmlFor="start_date" className="text-xs">
                   Start Date
                 </Label>
@@ -317,10 +317,10 @@ export default function ExperiencePage() {
                   type="date"
                   value={formData.start_date}
                   onChange={handleChange}
-                  className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                  className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
                 />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <Label htmlFor="end_date" className="text-xs">
                   End Date
                 </Label>
@@ -331,7 +331,7 @@ export default function ExperiencePage() {
                   value={formData.end_date}
                   onChange={handleChange}
                   disabled={formData.current_job}
-                  className="h-8 rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                  className="h-9 rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
                 />
               </div>
             </div>
@@ -343,7 +343,7 @@ export default function ExperiencePage() {
               </Label>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="description" className="text-xs">
                 Description
               </Label>
@@ -354,20 +354,20 @@ export default function ExperiencePage() {
                 onChange={handleChange}
                 placeholder="Describe your responsibilities and achievements"
                 rows={3}
-                className="rounded-md border-gray-200 text-xs focus:border-black focus:ring-black"
+                className="rounded-md border-gray-200 text-sm focus:border-black focus:ring-black"
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-3">
+            <div className="flex justify-end gap-2 pt-4">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setDialogOpen(false)}
-                className="h-7 rounded-full border-gray-200 px-3 text-xs"
+                className="h-8 rounded-full border-gray-200 px-3 text-xs touch-manipulation"
               >
                 Cancel
               </Button>
-              <Button type="submit" className="h-7 rounded-full px-3 text-xs">
+              <Button type="submit" className="h-8 rounded-full px-3 text-xs touch-manipulation">
                 {editingExperience ? "Update" : "Add"} Experience
               </Button>
             </div>
