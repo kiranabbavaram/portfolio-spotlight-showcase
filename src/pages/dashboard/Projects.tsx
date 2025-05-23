@@ -68,6 +68,11 @@ export default function Projects() {
   }
 
   const handleOpenDialog = (project: Project | null = null) => {
+    // Close any existing inline forms first
+    setShowInlineForm(false)
+    setEditingProject(null)
+    
+    // Then set up the new form
     if (project) {
       setEditingProject(project)
       setFormData({
@@ -342,7 +347,7 @@ export default function Projects() {
         </Button>
       </div>
 
-      {isMobile && showInlineForm && (
+      {isMobile && showInlineForm && !editingProject && (
         <Card className="border-gray-200 shadow-none">
           <CardContent className="p-4">
             {renderForm()}
@@ -370,8 +375,25 @@ export default function Projects() {
           </motion.div>
         ) : (
           projects.map((project, index) => {
-            // Hide card details when editing on mobile
             const isBeingEdited = isMobile && editingProject?.id === project.id && showInlineForm;
+            
+            if (isBeingEdited) {
+              return (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className={`touch-manipulation ${isMobile ? 'col-span-full' : ''}`}
+                >
+                  <Card className="border-gray-200 shadow-none">
+                    <CardContent className="p-4">
+                      {renderForm()}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            }
             
             return (
               <motion.div
@@ -382,96 +404,86 @@ export default function Projects() {
                 className="touch-manipulation"
               >
                 <Card className="rounded-md border-gray-200 shadow-none transition-all duration-300 hover:shadow-sm">
-                  {!isBeingEdited && (
-                    <>
-                      {project.image_url ? (
-                        <div className="overflow-hidden rounded-t-md">
-                          <AspectRatio ratio={16 / 9}>
-                            <img
-                              src={project.image_url || "/placeholder.svg"}
-                              alt={project.title}
-                              className="h-full w-full object-cover"
-                              loading="lazy"
-                            />
-                          </AspectRatio>
-                        </div>
-                      ) : (
-                        <div className="flex h-36 items-center justify-center rounded-t-md bg-gray-100">
-                          <ImageIcon size={24} className="text-gray-300" />
-                        </div>
-                      )}
-
-                      <CardHeader className="pb-2">
-                        <CardTitle className="line-clamp-1 text-sm font-medium">{project.title}</CardTitle>
-                      </CardHeader>
-
-                      <CardContent>
-                        <p className="mb-3 line-clamp-2 text-xs text-gray-600">{project.description}</p>
-                        {project.technologies && project.technologies.length > 0 && (
-                          <div className="flex flex-wrap gap-1">
-                            {project.technologies.map((tech) => (
-                              <span key={tech} className="rounded-full bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-800">
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </CardContent>
-                    </>
-                  )}
-
-                  {isBeingEdited ? (
-                    <CardContent className="p-4">
-                      {renderForm()}
-                    </CardContent>
+                  {project.image_url ? (
+                    <div className="overflow-hidden rounded-t-md">
+                      <AspectRatio ratio={16 / 9}>
+                        <img
+                          src={project.image_url || "/placeholder.svg"}
+                          alt={project.title}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </AspectRatio>
+                    </div>
                   ) : (
-                    <CardFooter className="flex justify-between border-t border-gray-100 p-3">
-                      <div className="flex gap-1">
-                        {project.project_url && (
-                          <Button 
-                            size="icon" 
-                            variant="ghost" 
-                            asChild 
-                            className="h-8 w-8 rounded-full touch-manipulation"
-                          >
-                            <a href={project.project_url} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink size={14} />
-                            </a>
-                          </Button>
-                        )}
-                        {project.github_url && (
-                          <Button 
-                            size="icon" 
-                            variant="ghost" 
-                            asChild 
-                            className="h-8 w-8 rounded-full touch-manipulation"
-                          >
-                            <a href={project.github_url} target="_blank" rel="noopener noreferrer">
-                              <Github size={14} />
-                            </a>
-                          </Button>
-                        )}
-                      </div>
-                      <div className="flex gap-1">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleOpenDialog(project)}
-                          className="h-8 rounded-md px-3 text-xs touch-manipulation"
-                        >
-                          <Pencil className="mr-1 h-3 w-3" /> Edit
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(project.id)}
-                          className="h-8 rounded-md px-3 text-xs text-red-600 hover:bg-red-50 hover:text-red-700 touch-manipulation"
-                        >
-                          <Trash2 className="mr-1 h-3 w-3" /> Delete
-                        </Button>
-                      </div>
-                    </CardFooter>
+                    <div className="flex h-36 items-center justify-center rounded-t-md bg-gray-100">
+                      <ImageIcon size={24} className="text-gray-300" />
+                    </div>
                   )}
+
+                  <CardHeader className="pb-2">
+                    <CardTitle className="line-clamp-1 text-sm font-medium">{project.title}</CardTitle>
+                  </CardHeader>
+
+                  <CardContent>
+                    <p className="mb-3 line-clamp-2 text-xs text-gray-600">{project.description}</p>
+                    {project.technologies && project.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {project.technologies.map((tech) => (
+                          <span key={tech} className="rounded-full bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-800">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+
+                  <CardFooter className="flex justify-between border-t border-gray-100 p-3">
+                    <div className="flex gap-1">
+                      {project.project_url && (
+                        <Button 
+                          size="icon" 
+                          variant="ghost" 
+                          asChild 
+                          className="h-8 w-8 rounded-full touch-manipulation"
+                        >
+                          <a href={project.project_url} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink size={14} />
+                          </a>
+                        </Button>
+                      )}
+                      {project.github_url && (
+                        <Button 
+                          size="icon" 
+                          variant="ghost" 
+                          asChild 
+                          className="h-8 w-8 rounded-full touch-manipulation"
+                        >
+                          <a href={project.github_url} target="_blank" rel="noopener noreferrer">
+                            <Github size={14} />
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleOpenDialog(project)}
+                        className="h-8 rounded-md px-3 text-xs touch-manipulation"
+                      >
+                        <Pencil className="mr-1 h-3 w-3" /> Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(project.id)}
+                        className="h-8 rounded-md px-3 text-xs text-red-600 hover:bg-red-50 hover:text-red-700 touch-manipulation"
+                      >
+                        <Trash2 className="mr-1 h-3 w-3" /> Delete
+                      </Button>
+                    </div>
+                  </CardFooter>
                 </Card>
               </motion.div>
             )

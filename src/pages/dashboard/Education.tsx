@@ -69,6 +69,11 @@ export default function EducationPage() {
   }
 
   const handleOpenDialog = (education: Education | null = null) => {
+    // Close any existing inline forms first
+    setShowInlineForm(false)
+    setEditingEducation(null)
+    
+    // Then set up the new form
     if (education) {
       setEditingEducation(education)
       setFormData({
@@ -319,7 +324,7 @@ export default function EducationPage() {
         </Button>
       </div>
 
-      {isMobile && showInlineForm && (
+      {isMobile && showInlineForm && !editingEducation && (
         <Card className="border-gray-200 shadow-none">
           <CardContent className="p-4">
             {renderForm()}
@@ -349,8 +354,24 @@ export default function EducationPage() {
           </motion.div>
         ) : (
           educationList.map((education, index) => {
-            // Hide card details when editing on mobile
             const isBeingEdited = isMobile && editingEducation?.id === education.id && showInlineForm;
+            
+            if (isBeingEdited) {
+              return (
+                <motion.div
+                  key={education.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  <Card className="border-gray-200 shadow-none">
+                    <CardContent className="p-4">
+                      {renderForm()}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            }
             
             return (
               <motion.div
@@ -360,53 +381,43 @@ export default function EducationPage() {
                 transition={{ duration: 0.3, delay: index * 0.05 }}
               >
                 <Card className="border-gray-200 shadow-none transition-shadow duration-200 hover:shadow-sm">
-                  {!isBeingEdited && (
-                    <>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="flex items-start justify-between text-sm font-medium">
-                          <div>
-                            <div>{education.institution}</div>
-                            <div className="mt-1 text-xs font-normal text-gray-500">
-                              {formatDateRange(education.start_date, education.end_date)}
-                            </div>
-                          </div>
-                        </CardTitle>
-                      </CardHeader>
-
-                      <CardContent>
-                        <div className="text-xs font-medium">{education.degree}</div>
-                        {education.field_of_study && <div className="text-xs text-gray-500">{education.field_of_study}</div>}
-                        {education.description && <p className="mt-2 text-xs text-gray-600">{education.description}</p>}
-                      </CardContent>
-                    </>
-                  )}
-
-                  {isBeingEdited ? (
-                    <CardContent className="p-4">
-                      {renderForm()}
-                    </CardContent>
-                  ) : (
-                    <CardFooter className="flex justify-end border-t border-gray-100 p-3">
-                      <div className="flex gap-1">
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          onClick={() => handleOpenDialog(education)}
-                          className="h-8 w-8 rounded-full touch-manipulation"
-                        >
-                          <Pencil size={14} />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          onClick={() => handleDelete(education.id)}
-                          className="h-8 w-8 rounded-full touch-manipulation"
-                        >
-                          <Trash2 size={14} />
-                        </Button>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-start justify-between text-sm font-medium">
+                      <div>
+                        <div>{education.institution}</div>
+                        <div className="mt-1 text-xs font-normal text-gray-500">
+                          {formatDateRange(education.start_date, education.end_date)}
+                        </div>
                       </div>
-                    </CardFooter>
-                  )}
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent>
+                    <div className="text-xs font-medium">{education.degree}</div>
+                    {education.field_of_study && <div className="text-xs text-gray-500">{education.field_of_study}</div>}
+                    {education.description && <p className="mt-2 text-xs text-gray-600">{education.description}</p>}
+                  </CardContent>
+
+                  <CardFooter className="flex justify-end border-t border-gray-100 p-3">
+                    <div className="flex gap-1">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => handleOpenDialog(education)}
+                        className="h-8 w-8 rounded-full touch-manipulation"
+                      >
+                        <Pencil size={14} />
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => handleDelete(education.id)}
+                        className="h-8 w-8 rounded-full touch-manipulation"
+                      >
+                        <Trash2 size={14} />
+                      </Button>
+                    </div>
+                  </CardFooter>
                 </Card>
               </motion.div>
             )
